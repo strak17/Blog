@@ -1,9 +1,11 @@
 package org.studyeasy.SpringStarter.config;
 
+import java.util.HashSet;
 import java.util.List;
-
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+
 import org.springframework.stereotype.Component;
 import org.studyeasy.SpringStarter.models.Account;
 import org.studyeasy.SpringStarter.models.Authority;
@@ -12,51 +14,70 @@ import org.studyeasy.SpringStarter.services.AccountService;
 import org.studyeasy.SpringStarter.services.AuthorityService;
 import org.studyeasy.SpringStarter.services.PostService;
 import org.studyeasy.SpringStarter.util.constants.Privillages;
+import org.studyeasy.SpringStarter.util.constants.Roles;
 
 @Component
-public class SeedData implements CommandLineRunner{
+public class SeedData implements CommandLineRunner {
 
     @Autowired
     private PostService postService;
 
     @Autowired
     private AccountService accountService;
+
     @Autowired
     private AuthorityService authorityService;
+
     @Override
     public void run(String... args) throws Exception {
 
-
-        for(Privillages auth: Privillages.values()){
+        for (Privillages auth : Privillages.values()) {
             Authority authority = new Authority();
             authority.setId(auth.getId());
             authority.setName(auth.getPrivillage());
             authorityService.save(authority);
         }
 
-        
-       Account account01 = new Account();
-       Account account02 = new Account();
+        Account account01 = new Account();
+        Account account02 = new Account();
+        Account account03 = new Account();
+        Account account04 = new Account();
 
-       account01.setEmail("account01@studyeasy.org");
-       account01.setPassword("password");
-       account01.setFirstname("user01");
-       account01.setLastname("lastname01");
+        account01.setEmail("user@mail.com");
+        account01.setPassword("password");
+        account01.setFirstname("user");
+        account01.setLastname("lastname");
 
+        account02.setEmail("admin@mail.com");
+        account02.setPassword("password");
+        account02.setFirstname("admin");
+        account02.setLastname("adminlastname");
+        account02.setRole(Roles.ADMIN.getRole());
 
-       account02.setEmail("account02@studyeasy.org");
-       account02.setPassword("password");
-       account02.setFirstname("user02");
-         account02.setLastname("lastname02");
+        account03.setEmail("editor@mail.com");
+        account03.setPassword("password");
+        account03.setFirstname("editor");
+        account03.setLastname("lastname");
+        account03.setRole(Roles.EDITOR.getRole());
 
+        account04.setEmail("editor2@mail.com");
+        account04.setPassword("passwor");
+        account04.setFirstname("Editor");
+        account04.setLastname("lastname");
+        account04.setRole(Roles.EDITOR.getRole());
 
-       accountService.save(account01);
-       accountService.save(account02);
-       
+        Set<Authority> authorities = new HashSet<>();
+        authorityService.findById(Privillages.RESET_ANY_USER_PASSWORD.getId()).ifPresent(authorities::add);
+        authorityService.findById(Privillages.ACCESS_ADMIN_PANEL.getId()).ifPresent(authorities::add);
+        account04.setAuthorities(authorities);
 
+        accountService.save(account01);
+        accountService.save(account02);
+        accountService.save(account03);
+        accountService.save(account04);
 
-       List<Post> posts = postService.getAll();
-       if (posts.size() == 0){
+        List<Post> posts = postService.getAll();
+        if (posts.isEmpty()) {
             Post post01 = new Post();
             post01.setTitle("Post 01");
             post01.setBody("Post 01 body.....................");
@@ -68,9 +89,6 @@ public class SeedData implements CommandLineRunner{
             post02.setBody("Post 02 body.....................");
             post02.setAccount(account02);
             postService.save(post02);
-
-       }
-        
+        }
     }
-    
 }
