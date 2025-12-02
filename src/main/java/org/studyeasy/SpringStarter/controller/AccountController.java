@@ -23,9 +23,15 @@ public class AccountController {
     }
 
     @PostMapping("/register")
-    public String register_user(@ModelAttribute Account account){
-        accountService.save(account);
-        return "redirect:/";
+    public String register_user(@ModelAttribute Account account, Model model){
+        try {
+            accountService.save(account);
+            return "redirect:/";
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            model.addAttribute("account", account);
+            return "register";
+        }
     }
 
     @GetMapping("/login")

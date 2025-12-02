@@ -22,13 +22,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
             <li class="nav-item ">
               <a class="nav-link" href="/">Home </a>
             </li>
+            <span sec:authorize="!isAuthenticated()"> 
             <li class="nav-item">
               <a class="nav-link" href="/register">Register</a>
-            </li>
-            <li class="nav-item">
+             </li>
+              </span>
+              <span sec:authorize="!isAuthenticated()"> 
+             <li class="nav-item">
               <a class="nav-link" href="/login">login</a>
-            </li>
-          </ul> 
+             </li>
+              </span>
+               <span sec:authorize="isAuthenticated()">
+             <li class="nav-item">
+              <a class="nav-link" href="/profile">Profile</a>
+             </li>
+             </span>
+            </ul> 
+          </span>
         </div>
       </nav>
     </div>

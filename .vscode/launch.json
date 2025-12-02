@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SpringBlogApplication<SpringStarter>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "org.studyeasy.SpringStarter.SpringBlogApplication",
+            "projectName": "SpringStarter",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

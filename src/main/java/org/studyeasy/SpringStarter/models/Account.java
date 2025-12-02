@@ -2,6 +2,7 @@ package org.studyeasy.SpringStarter.models;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -21,12 +22,14 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
+    @Column(unique = true, nullable = false)
     private String email;
 
     private String password;
 
     private String firstname;
-
+    private String lastname;
+    private String role;
     @OneToMany(mappedBy = "account")
     private List<Post> posts;
    
