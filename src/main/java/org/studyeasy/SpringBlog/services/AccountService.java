@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.studyeasy.SpringBlog.models.Account;
 import org.studyeasy.SpringBlog.models.Authority;
+import org.studyeasy.SpringBlog.models.Post;
 import org.studyeasy.SpringBlog.repositories.AccountRepository;
 import org.studyeasy.SpringBlog.util.constants.Roles;
 
@@ -52,6 +53,18 @@ public class AccountService implements UserDetailsService{
         }
 
         return new User(account.getEmail(), account.getPassword(), grantedAuthority);
+    }
+    public Optional<Account> findOneByEmail(String email){
+        Optional<Account> optionalAccount = accountRepository.findOneByEmailIgnoreCase(email);
+        if(optionalAccount.isPresent()){
+            Post post = new Post();
+            post.setAccount(optionalAccount.get());
+
+        }
+        // if(!optionalAccount.isPresent()){
+        //     throw new UsernameNotFoundException("Account not found");
+        // }
+        return optionalAccount;
     }
     
 }

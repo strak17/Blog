@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.studyeasy.SpringBlog.util.constants.Privillages;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
@@ -32,10 +33,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
         .authorizeRequests()
-        .antMatchers(WHITELIST)
-        .permitAll()
-        .anyRequest()
-        .authenticated()
+        .antMatchers(WHITELIST).permitAll()
+        .antMatchers("/profile/**").authenticated()
+        .antMatchers("/admin/**").hasRole("ADMIN")
+        .antMatchers("/editor/**").hasAnyRole("ADMIN", "EDITOR")
+        .antMatchers("/admin/**").hasAuthority(Privillages.ACCESS_ADMIN_PANEL.getPrivillage())
         .and()
         .formLogin()
         .loginPage("/login")

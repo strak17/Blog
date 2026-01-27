@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.studyeasy.SpringBlog.models.Account;
 import org.studyeasy.SpringBlog.models.Authority;
@@ -31,9 +30,6 @@ public class SeedData implements CommandLineRunner {
 
     @Autowired
     private AccountRepository accountRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) throws Exception {
